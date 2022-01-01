@@ -1,11 +1,10 @@
 import cv2
-import utils
 import processing
 import pandas as pd
 from datetime import datetime
 
 def extract_date(video_path):
-    frame = utils.first_frame(video_path)
+    frame = processing.first_frame(video_path)
     date = processing.process_date(frame)
     return date
 
@@ -39,7 +38,7 @@ def video_to_df(video_path):
     print(datetime.now() - now)
     return df
 
-#data = video_to_df('data/test.mp4')
+data = video_to_df('data/test.mp4')
 #data.to_csv('data/test.csv')
 
 

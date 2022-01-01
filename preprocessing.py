@@ -16,11 +16,6 @@ def preprocess(img, crop_config):
     thresh = threshold(cropped)
     return thresh
 
-# Video processing
-def first_frame(video_path):
-    cap = cv2.VideoCapture(video_path)
-    ret, frame = cap.read()
-    cap.release()
-    return frame
+
 
 

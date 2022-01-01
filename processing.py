@@ -1,7 +1,6 @@
 import re
 import cv2
-from typing import ValuesView
-import utils
+import preprocessing
 import crop_configs
 import pytesseract
 from dateparser import parse
@@ -18,19 +17,23 @@ def str_to_date(date_str):
     return parse(date_str, languages=['en'])
 
 def process_lat(img):
-    lat = utils.preprocess(img, cropping.LAT_CROP_CONFIG)
+    lat = preprocessing.preprocess(img, crop_configs.LAT_CROP_CONFIG)
     lat_str = recognize_text(lat)
     #print(lat_str)
     return dms_to_dd(lat_str)
 
 def process_lon(img):
-    lon = utils.preprocess(img, cropping.LON_CROP_CONFIG)
+    lon = preprocessing.preprocess(img, crop_configs.LON_CROP_CONFIG)
     lon_str = recognize_text(lon)
     return dms_to_dd(lon_str)
 
 def process_date(img):
-    date = utils.preprocess(img, cropping.DATE_CROP_CONFIG)
+    date = preprocessing.preprocess(img, crop_configs.DATE_CROP_CONFIG)
     date_str = recognize_text(date)
-    print(date_str)
     return str_to_date(date_str)
 
+def first_frame(video_path):
+    cap = cv2.VideoCapture(video_path)
+    ret, frame = cap.read()
+    cap.release()
+    return frame
