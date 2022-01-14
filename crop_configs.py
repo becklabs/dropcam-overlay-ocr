@@ -18,3 +18,4 @@ DATE_CROP_CONFIG = {
     'top': 45,
     'bottom': 84
 }
+

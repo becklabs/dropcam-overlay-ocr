@@ -7,6 +7,7 @@ import pandas as pd
 from dateparser import parse
 import pytessy
 from GPSPhoto import gpsphoto
+import time
 
 def first_frame(video_path):
     cap = cv2.VideoCapture(video_path)
@@ -23,8 +24,8 @@ def str_to_date(date_str):
     return parse(date_str, languages=['en'])
 
 def recognize_text(img):
-    custom_config = r'-l eng --oem 3 --psm 7 -c tessedit_char_whitelist=0123456789\'\".°NESW/'
-    #custom_config = r'-l eng --oem 3 --psm 7'
+    #custom_config = r'-l eng --oem 3 --psm 7 -c tessedit_char_whitelist=0123456789\'\".°NESW/'
+    custom_config = r'-l eng --oem 3 --psm 7'
     #return pytesseract.image_to_string(img, config=custom_config).replace('\n', '')
     return pytesseract.image_to_string(img, config=custom_config).replace('\n', '').strip('\x0c')
 
@@ -110,4 +111,6 @@ def df_to_csv(df, video_name='', output_dir=''):
     df.to_csv(f'{output_dir}/{video_name}.csv')
 
 
+df = video_to_df('data/test2.mp4',sample_interval=7.5)
+df_to_images(df, video_name='test2', output_dir='data/test2')
 
