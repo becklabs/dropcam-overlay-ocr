@@ -10,11 +10,15 @@ def crop(img, crop_config):
 def threshold(gray):
     return cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
 
+def resize(img):
+    return cv2.resize(img, (0, 0), fx=2, fy=2)
+
 def preprocess(img, crop_config):
     gray = grayscale(img)
     cropped = crop(gray, crop_config)
     thresh = threshold(cropped)
-    return thresh
+    resized = resize(thresh)
+    return resized
 
 
 
