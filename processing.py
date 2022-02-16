@@ -110,6 +110,37 @@ def df_to_images(df, photo_prefix='', output_folder=''):
         metadata = generate_metadata(row['Latitude'], row['Longitude'], row['Timestamp'])
         add_metadata(frame_path, metadata)
 
+def video_to_geotagged_images(video_path, output_path=False, sample_interval=7.5, export_csv=False):
+  """
+  Extracts the coords from the video and saves the images with the GPS coordinates as metadata
 
+  Arguments:
+  video_path: Path to video file
+  output_path: where the images and csv will be exported
+  sample_interval: interval in seconds between each image
 
+  """
+  # (Ex. if prefix = "sample": export is sample_0.jpg, sample_1.jpg ... )
+  photo_prefix = os.path.basename(video_path).split('.')[0]
 
+  # Create output folder if it doesn't exist
+  if not output_path:
+    output_path = os.path.join(os.path.dirname(video_path), photo_prefix)
+    
+  if not os.path.exists(output_path):
+      os.makedirs(output_path)
+      
+  # Extract frames from video to a table with Lat, Lon, Timestamp, Image (dataframe)
+  df = video_to_df(video_path=video_path, sample_interval=7.5)
+
+  # Save each frame in a table along with its respective EXIF data
+  df_to_images(df=df, photo_prefix=photo_prefix,
+             output_folder=output_path)
+
+  # Drop the 'Frame' column and save table as csv
+  if export_csv:
+    print('Saving datatable...')
+    output_df = df.drop(columns=['Frame'])
+    output_df.to_csv(os.path.join(output_path, photo_prefix) + '.csv', index=False)
+
+  print('Done')
