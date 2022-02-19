@@ -1,11 +1,7 @@
 import re
 import os
 import cv2
-from sys import platform
-if platform == "linux" or platform == "linux2":
-    import tesseract as pytesseract
-else:
-    import pytesseract
+import pytesseract
 if os.name == 'nt':
     pytesseract.pytesseract.tesseract_cmd = r'C:\tesseract\tesseract.exe'
 from dateparser import parse
