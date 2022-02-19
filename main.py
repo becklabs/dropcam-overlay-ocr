@@ -1,5 +1,5 @@
 import os
 import pandas as pd
-from processing import video_to_geotagged_images
+from ObjectOriented import Video
 
-video_to_geotagged_images('sample_video.mp4')
+Video('sample/Encode_439.mp4').extract_frames(7.5)
