@@ -1,5 +1,5 @@
 import os
 import pandas as pd
-from ObjectOriented import Video
+from objects import Video
 
-Video('sample/Encode_439.mp4').extract_frames(7.5)
+Video('data/test3.mp4').extract_frames(15)

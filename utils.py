@@ -51,17 +51,17 @@ def preprocess(img, crop_config):
     gray = grayscale(img)
     cropped = crop(gray, crop_config)
     thresh = threshold(cropped)
-    resized = resize(thresh)
-    return resized
+    #resized = resize(thresh)
+    return thresh
 
 # Text Recognition
 
 
 def recognize_text(img):
-    #custom_config = r'-l eng --oem 3 --psm 7 -c tessedit_char_whitelist=0123456789\'\".°NESW/'
-    custom_config = r'-l eng --oem 3 --psm 7 --dpi 70'
-    # return pytesseract.image_to_string(img, config=custom_config).replace('\n', '').strip('\x0c')
-    return pytesseract.image_to_string(img).replace('\n', '').strip('\x0c')
+    custom_config = r'-l eng --oem 3 --psm 7 -c tessedit_char_whitelist=0123456789\'\".°NESW/'
+    #custom_config = r'-l eng --oem 3 --psm 1'
+    return pytesseract.image_to_string(img, config=custom_config).replace('\n', '').strip('\x0c')
+    # return pytesseract.image_to_string(img).replace('\n', '').strip('\x0c')
 
 
 def dms_to_dd(dms):
@@ -71,21 +71,21 @@ def dms_to_dd(dms):
     return round(dd, 6)
 
 
+def str_to_date(date_str):
+    return parse(date_str, languages=['en'])
+
+
 def parse_coord(coord_str):
     try:
         return dms_to_dd(coord_str.replace('\'\"', '\"'))
     except ValueError:
-        print(f'Could not parse coord: {coord_str}', end="\r", flush=True)
+        print(f'\n Could not parse coord: {coord_str}', end="\r", flush=True)
         return None
-
-
-def str_to_date(date_str):
-    return parse(date_str, languages=['en'])
 
 
 def parse_date(date_str):
     try:
         return str_to_date(date_str)
     except ValueError:
-        print(f'Could not parse date: {date_str}', end="\r", flush=True)
+        print(f'\n Could not parse date: {date_str}', end="\r", flush=True)
         return None
